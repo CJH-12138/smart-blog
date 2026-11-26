@@ -1,0 +1,171 @@
+server:
+  port: 8080
+  # Tomcat优化 - 低内存配置
+  tomcat:
+    threads:
+      max: 50
+      min-spare: 5
+    max-connections: 2000
+    accept-count: 100
+    connection-timeout: 10000
+    # 减少内存占用
+    max-http-header-size: 8KB
+    max-swallow-size: 2MB
+  # 开启响应压缩
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,application/javascript
+    min-response-size: 1024
+
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  # 静态资源缓存配置 - 优化图片加载速度
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 30d  # 缓存30天
+          cache-public: true
+          must-revalidate: true
+  # 邮件配置
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  # Jackson优化 - 减少序列化内存
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    # 减少内存占用
+    generator:
+      write-numbers-as-strings: false
+    parser:
+      allow-comments: false
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+
+    virtual-host: ${RABBITMQ_VHOST:/}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    listener:
+      simple:
+        missing-queues-fatal: false
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          initial-interval: 1000
+          max-attempts: 3
+          multiplier: 2.0
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.blog.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    # 生产环境关闭SQL日志
+    log-impl: ${MYBATIS_LOG:org.apache.ibatis.logging.stdout.StdOutImpl}
+    # 减少内存占用
+    cache-enabled: true
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    # 设置合理的超时时间
+    default-statement-timeout: 25
+  global-config:
+    db-config:
+      # 逻辑删除配置
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+knife4j:
+  enable: ${KNIFE4J_ENABLE:true}
+  setting:
+    language: zh_cn
+
+file:
+  storage: ${FILE_STORAGE:oss}
+  upload-path: uploads
+
+aliyun:
+  oss:
+    endpoint: ${ALIYUN_OSS_ENDPOINT:oss-cn-hangzhou.aliyuncs.com}
+    bucket: ${ALIYUN_OSS_BUCKET:smart-blog-668}
+    access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID:}
+    access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:}
+    public-base-url: ${ALIYUN_OSS_PUBLIC_BASE_URL:https://smart-blog-668.oss-cn-hangzhou.aliyuncs.com}
+    object-prefix: ${ALIYUN_OSS_OBJECT_PREFIX:uploads}
+
+blog:
+  ai:
+    knowledge:
+      enabled: true
+      article-limit: 3
+      study-question-limit: 3
+      article-content-max-length: 800
+      question-stem-max-length: 400
+      question-answer-max-length: 1000
+    rag:
+      enabled: false
+      index-name: blog_rag_content
+      embedding:
+        provider: openai-compatible
+        base-url: ${BLOG_AI_RAG_EMBEDDING_BASE_URL:}
+        api-key: ${BLOG_AI_RAG_EMBEDDING_API_KEY:}
+        model: ${BLOG_AI_RAG_EMBEDDING_MODEL:text-embedding-3-small}
+        max-segments-per-batch: 16
+        max-retries: 2
+      retrieval:
+        max-results: 6
+        min-score: 0.60
+        keyword-weight: 0.65
+        vector-weight: 0.35
+      chunk:
+        article-max-length: 800
+        article-overlap: 120
+        question-max-length: 600
+  cache:
+    study:
+      category-tree-minutes: 120
+      overview-minutes: 5
+      check-stats-minutes: 5
+  search:
+    elasticsearch:
+      enabled: false
+      endpoint: http://localhost:9200
+      username:
+      password:
+      article-index: blog_article_search
+      study-question-index: blog_study_question_search
+      user-index: blog_user_search
+      analyzer: ik_max_word
+      search-analyzer: ik_smart
+      connect-timeout-ms: 3000
+      read-timeout-ms: 5000
+  study:
+    check:
+      history-retention-days: 2
+      cleanup-cron: "0 20 3 * * ?"

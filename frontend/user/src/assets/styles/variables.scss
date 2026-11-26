@@ -1,0 +1,55 @@
+// 主题色 - 简洁灰蓝色系（适配暗色主题）
+$primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+$primary-color: #3b82f6;
+$primary-light: #60a5fa;
+$primary-dark: #2563eb;
+
+// 背景色 - 深色系
+$bg-dark: #18181b;
+$bg-darker: #09090b;
+$bg-card: #27272a;
+$bg-card-solid: #27272a;
+$bg-card-hover: #3f3f46;
+$bg-input: #27272a;
+
+// 磨砂玻璃效果
+$glass-bg: rgba(39, 39, 42, 0.8);
+$glass-border: rgba(255, 255, 255, 0.06);
+$glass-blur: blur(20px);
+$glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+
+// 文字色
+$text-primary: #ffffff;
+$text-secondary: #dfdfd6;
+$text-muted: #a1a1aa;
+$text-disabled: #71717a;
+
+// 边框色
+$border-color: rgba(255, 255, 255, 0.06);
+$border-light: rgba(255, 255, 255, 0.1);
+
+// 功能色
+$success-color: #22c55e;
+$warning-color: #f59e0b;
+$error-color: #ef4444;
+$info-color: #3b82f6;
+
+// 阴影
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+$shadow-glow: 0 0 16px rgba(59, 130, 246, 0.1);
+
+// 圆角
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+
+// 间距
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;

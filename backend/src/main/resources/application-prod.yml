@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+
+  redis:
+    host: ${REDIS_HOST}
+    port: 6379
+    password: ${REDIS_PASSWORD:}
+    database: 0
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 4
+        max-idle: 2
+        min-idle: 1
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 604800000
+
+file:
+  storage: oss
+  upload-path: /app/uploads
+
+logging:
+  level:
+    root: WARN
+    com.blog: INFO
+
+blog:
+  search:
+    elasticsearch:
+      enabled: true
+      endpoint: http://blog-es:9200
+      username: ${ES_SEARCH_USERNAME:}
+      password: ${ES_SEARCH_PASSWORD:}
+      article-index: blog_article_search
+      study-question-index: blog_study_question_search
+      user-index: blog_user_search
+      analyzer: ik_max_word
+      search-analyzer: ik_smart
